@@ -1,0 +1,5 @@
+use_cases.deploy_serverless_code_use_case.DeployServerlessCodeUseCase:
+    fqn: use_cases.deploy_serverless_code_use_case.DeployServerlessCodeUseCase
+    args:
+        - '@use_cases.services.upload_code_service.aws_upload_code_service.AwsUploadCodeService'
+        - '@use_cases.services.deploy_code_serverless_service.aws_deploy_code_serverless_service.AwsDeployCodeServerlessService'

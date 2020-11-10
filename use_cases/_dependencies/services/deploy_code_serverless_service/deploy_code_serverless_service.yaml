@@ -1,0 +1,2 @@
+use_cases.services.deploy_code_serverless_service.aws_deploy_code_serverless_service.AwsDeployCodeServerlessService:
+    fqn: use_cases.services.deploy_code_serverless_service.aws_deploy_code_serverless_service.AwsDeployCodeServerlessService
