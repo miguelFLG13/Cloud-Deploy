@@ -1,0 +1,2 @@
+use_cases.services.cdn_cache_invalidation.aws_cdn_cache_invalidation.AwsCdnCacheInvalidationService:
+    fqn: use_cases.services.cdn_cache_invalidation.aws_cdn_cache_invalidation.AwsCdnCacheInvalidationService
