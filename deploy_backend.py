@@ -11,7 +11,8 @@ if len(sys.argv) != 3:
     print("Incorrect Number of Parameters Error")
     sys.exit(1)
 
-if not(sys.argv[1] == PRODUCTION_ENVIRONMENT or sys.argv[1] == PREPRODUCTION_ENVIRONMENT):
+environments = [PRODUCTION_ENVIRONMENT, PREPRODUCTION_ENVIRONMENT]
+if not sys.argv[1] in environments:
     print("Environment Argument Error")
     sys.exit(1)
 
