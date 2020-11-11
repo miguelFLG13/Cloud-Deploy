@@ -1,0 +1,2 @@
+use_cases.services.empty_bucket_service.aws_empty_bucket_service.AwsEmptyBucketService:
+    fqn: use_cases.services.empty_bucket_service.aws_empty_bucket_service.AwsEmptyBucketService

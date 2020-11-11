@@ -1,0 +1,5 @@
+use_cases.services.upload_code_folder_service.aws_upload_code_folder_service.AwsUploadCodeFolderService:
+    fqn: use_cases.services.upload_code_folder_service.aws_upload_code_folder_service.AwsUploadCodeFolderService
+    args:
+        - '@use_cases.services.upload_code_service.aws_upload_code_service.AwsUploadCodeService'
+

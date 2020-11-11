@@ -1,0 +1,7 @@
+use_cases.deploy_static_code_use_case.DeployStaticCodeUseCase:
+    fqn: use_cases.deploy_static_code_use_case.DeployStaticCodeUseCase
+    args:
+        - '@use_cases.services.empty_bucket_service.aws_empty_bucket_service.AwsEmptyBucketService'
+        - '@use_cases.services.upload_code_folder_service.aws_upload_code_folder_service.AwsUploadCodeFolderService'
+        - '@use_cases.services.list_bucket_content_service.aws_list_bucket_content_service.AwsListBucketContentService'
+        - '@use_cases.services.cdn_cache_invalidation.aws_cdn_cache_invalidation.AwsCdnCacheInvalidationService'

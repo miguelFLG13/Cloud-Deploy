@@ -1,0 +1,2 @@
+use_cases.services.list_bucket_content_service.aws_list_bucket_content_service.AwsListBucketContentService:
+    fqn: use_cases.services.list_bucket_content_service.aws_list_bucket_content_service.AwsListBucketContentService
