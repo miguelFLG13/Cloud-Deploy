@@ -37,14 +37,13 @@ class DeployStaticCodeUseCase:
             environment=environment
         )
 
-        #self.__empty_bucket_service.empty(bucket)
+        self.__empty_bucket_service.empty(bucket)
 
         folder = Folder(path=Path(path))
 
-        #self.__upload_code_folder_service.upload(bucket, folder, path)
+        self.__upload_code_folder_service.upload(bucket, folder, path)
 
         if environment == PRODUCTION_ENVIRONMENT:
-            import ipdb; ipdb.set_trace()
             files = self.__list_bucket_content_service.list(bucket)
 
             cdn = Cdn(id=os.getenv('CDN_ID'))
