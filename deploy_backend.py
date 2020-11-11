@@ -4,12 +4,14 @@ import sys
 from pypendency.builder import container_builder
 from pypendency.loaders.yaml_loader import YamlLoader
 
+from environments import PREPRODUCTION_ENVIRONMENT, PRODUCTION_ENVIRONMENT
+
 
 if len(sys.argv) != 3:
     print("Incorrect Number of Parameters Error")
     sys.exit(1)
 
-if not(sys.argv[1] == "PRO" or sys.argv[1] == "PRE"):
+if not(sys.argv[1] == PRODUCTION_ENVIRONMENT or sys.argv[1] == PREPRODUCTION_ENVIRONMENT):
     print("Environment Argument Error")
     sys.exit(1)
 
