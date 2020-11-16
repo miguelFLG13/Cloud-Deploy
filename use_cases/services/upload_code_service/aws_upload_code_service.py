@@ -1,4 +1,5 @@
 import boto3
+import mimetypes
 import os
 
 from entities.artifact import Artifact
@@ -20,5 +21,6 @@ class AwsUploadCodeService(UploadCodeService):
         client.put_object(
             Body=open(artifact.temp_path, 'rb'),
             Bucket=bucket.name,
-            Key=artifact.file_name
+            Key=artifact.file_name,
+            ContentType=mimetypes.MimeTypes().guess_type(artifact.temp_path)[0]
         )
