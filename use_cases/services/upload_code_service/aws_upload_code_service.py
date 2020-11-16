@@ -18,9 +18,11 @@ class AwsUploadCodeService(UploadCodeService):
             region_name=os.getenv('REGION_NAME')
         )
 
+        content_type = mimetypes.MimeTypes().guess_type(artifact.temp_path)
+        content_type = content_type[0] if content_type[0] else ""
         client.put_object(
             Body=open(artifact.temp_path, 'rb'),
             Bucket=bucket.name,
             Key=artifact.file_name,
-            ContentType=mimetypes.MimeTypes().guess_type(artifact.temp_path)[0]
+            ContentType=content_type
         )
