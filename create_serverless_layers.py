@@ -26,7 +26,7 @@ use_case = container_builder.get(
     "use_cases.create_serverless_layer_version_use_case.CreateServerlessLayerVersionUseCase"
 )
 
-with open("../serverless.json".format(os.getcwd())) as file:
+with open("../serverless.{}.json".format(environment.lower())) as file:
     serverless_data = json.loads(file.read())
 
 for serverless_info in serverless_data:
