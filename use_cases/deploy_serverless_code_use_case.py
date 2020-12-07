@@ -1,5 +1,6 @@
 import os
 from time import strftime
+from typing import Dict
 
 from entities.artifact import Artifact
 from entities.bucket import Bucket
@@ -22,13 +23,28 @@ class DeployServerlessCodeUseCase:
         self.__upload_code_service = upload_code_service
         self.__deploy_code_serverless_service = deploy_code_serverless_service
 
-    def deploy(self, environment: str, path: str) -> None:
+    def deploy(self, environment: str, serverless_info: Dict) -> None:
+        current_directory = os.getcwd()
+        os.chdir("../")
+        for module in serverless_info['extra_modules']:
+            os.system("cp -r {} {}".format(module, serverless_info['path']))
+
+        os.chdir(serverless_info['path'])
+        file_name = "{}.zip".format(serverless_info['path'].replace('/', '_'))
+        os.system("zip -r {} *".format(file_name))
+        os.system("mv {} {}/../".format(file_name, current_directory))
+        os.chdir(current_directory)
+
         version = strftime("%Y%m%d%H%M%S")
-        file_name = "{}/{}_build.zip".format(environment, version)
+        file_name = "{}/{}_{}_build.zip".format(
+            environment,
+            version,
+            serverless_info['id']
+        )
 
         artifact = Artifact(
             file_name=file_name,
-            temp_path=path
+            temp_path="../{}".format(file_name)
         )
 
         bucket_name = os.getenv('BUCKET_{}'.format(environment))
@@ -42,11 +58,8 @@ class DeployServerlessCodeUseCase:
             artifact
         )
 
-        serverless_service_name = os.getenv(
-            'SERVERLESS_SERVICE_{}'.format(environment)
-        )
         serverless_service = ServerlessService(
-            name=serverless_service_name,
+            name=serverless_info['id'],
             environment=environment
         )
 

@@ -1,0 +1,6 @@
+use_cases.create_serverless_layer_version_use_case.CreateServerlessLayerVersionUseCase:
+    fqn: use_cases.create_serverless_layer_version_use_case.CreateServerlessLayerVersionUseCase
+    args:
+        - '@use_cases.services.upload_code_service.aws_upload_code_service.AwsUploadCodeService'
+        - '@use_cases.services.publish_layer_version.aws_publish_layer_version.AwsPublishLayerVersion'
+        - '@use_cases.services.update_serverless_layer.aws_update_serverless_layer.AwsUpdateServerlessLayer'

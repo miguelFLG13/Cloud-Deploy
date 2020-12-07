@@ -1,0 +1,2 @@
+use_cases.services.update_serverless_layer.aws_update_serverless_layer.AwsUpdateServerlessLayer:
+    fqn: use_cases.services.update_serverless_layer.aws_update_serverless_layer.AwsUpdateServerlessLayer

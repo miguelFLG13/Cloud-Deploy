@@ -1,0 +1,2 @@
+use_cases.services.publish_layer_version.aws_publish_layer_version.AwsPublishLayerVersion:
+    fqn: use_cases.services.publish_layer_version.aws_publish_layer_version.AwsPublishLayerVersion
