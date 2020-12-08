@@ -43,7 +43,7 @@ class DeployServerlessCodeUseCase:
 
         artifact = Artifact(
             file_name=file_name,
-            temp_path="../{}".format(temp_file_name)
+            temp_path="{}/{}".format(directory, temp_file_name)
         )
 
         bucket_name = os.getenv('BUCKET_{}'.format(environment))
