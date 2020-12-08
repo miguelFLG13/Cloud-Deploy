@@ -24,16 +24,15 @@ class DeployServerlessCodeUseCase:
         self.__deploy_code_serverless_service = deploy_code_serverless_service
 
     def deploy(self, environment: str, serverless_info: Dict) -> None:
-        current_directory = os.getcwd()
         os.chdir("../")
+        directory = os.getcwd()
         for module in serverless_info['extra_modules']:
             os.system("cp -r {} {}".format(module, serverless_info['path']))
 
         os.chdir(serverless_info['path'])
         temp_file_name = "{}.zip".format(serverless_info['path'].replace('/', '_'))
         os.system("zip -r {} *".format(temp_file_name))
-        os.system("mv {} {}/../".format(temp_file_name, current_directory))
-        os.chdir(current_directory)
+        os.system("mv {} {}".format(temp_file_name, directory))
 
         version = strftime("%Y%m%d%H%M%S")
         file_name = "{}/{}_{}_build.zip".format(
