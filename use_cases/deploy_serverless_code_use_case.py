@@ -31,8 +31,8 @@ class DeployServerlessCodeUseCase:
 
         os.chdir(serverless_info['path'])
         temp_file_name = "{}.zip".format(serverless_info['path'].replace('/', '_'))
-        os.system("zip -r {} *".format(file_name))
-        os.system("mv {} {}/../".format(file_name, current_directory))
+        os.system("zip -r {} *".format(temp_file_name))
+        os.system("mv {} {}/../".format(temp_file_name, current_directory))
         os.chdir(current_directory)
 
         version = strftime("%Y%m%d%H%M%S")
