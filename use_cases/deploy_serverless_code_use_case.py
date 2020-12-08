@@ -30,7 +30,7 @@ class DeployServerlessCodeUseCase:
             os.system("cp -r {} {}".format(module, serverless_info['path']))
 
         os.chdir(serverless_info['path'])
-        file_name = "{}.zip".format(serverless_info['path'].replace('/', '_'))
+        temp_file_name = "{}.zip".format(serverless_info['path'].replace('/', '_'))
         os.system("zip -r {} *".format(file_name))
         os.system("mv {} {}/../".format(file_name, current_directory))
         os.chdir(current_directory)
@@ -44,7 +44,7 @@ class DeployServerlessCodeUseCase:
 
         artifact = Artifact(
             file_name=file_name,
-            temp_path="../{}".format(file_name)
+            temp_path="../{}".format(temp_file_name)
         )
 
         bucket_name = os.getenv('BUCKET_{}'.format(environment))
