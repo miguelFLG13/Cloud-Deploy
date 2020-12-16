@@ -29,5 +29,7 @@ use_case = container_builder.get(
 with open("../serverless.{}.json".format(environment.lower())) as file:
     serverless_data = json.loads(file.read())
 
+current_directory = os.getcwd()
 for serverless_info in serverless_data:
     use_case.deploy(environment, serverless_info)
+    os.chdir(current_directory)
