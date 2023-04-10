@@ -1,0 +1,2 @@
+use_cases.services.upload_image_registry_service.aws_upload_image_registry_service.AwsUploadImageRegistryService:
+    fqn: use_cases.services.upload_image_registry_service.aws_upload_image_registry_service.AwsUploadImageRegistryService

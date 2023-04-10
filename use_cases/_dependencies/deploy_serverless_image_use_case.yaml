@@ -1,0 +1,5 @@
+use_cases.deploy_serverless_image_use_case.DeployServerlessImageUseCase:
+    fqn: use_cases.deploy_serverless_image_use_case.DeployServerlessImageUseCase
+    args:
+        - '@use_cases.services.upload_image_registry_service.aws_upload_image_registry_service.AwsUploadImageRegistryService'
+        - '@use_cases.services.deploy_image_serverless_service.aws_deploy_image_serverless_service.AwsDeployImageServerlessService'

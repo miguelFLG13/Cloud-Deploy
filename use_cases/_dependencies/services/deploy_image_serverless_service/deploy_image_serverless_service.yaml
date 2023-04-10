@@ -1,0 +1,2 @@
+use_cases.services.deploy_image_serverless_service.aws_deploy_image_serverless_service.AwsDeployImageServerlessService:
+    fqn: use_cases.services.deploy_image_serverless_service.aws_deploy_image_serverless_service.AwsDeployImageServerlessService
