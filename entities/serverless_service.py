@@ -1,9 +1,9 @@
 from dataclasses import dataclass
-from typing import Dict
+from typing import Dict, Optional
 
 
 @dataclass
 class ServerlessService:
     name: str
     environment: str
-    config: Dict
+    config: Optional[Dict] = None
