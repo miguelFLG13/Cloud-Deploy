@@ -1,6 +1,7 @@
 import boto3
 import json
 import os
+import time
 
 from entities.artifact import Artifact
 from entities.bucket import Bucket
@@ -25,18 +26,6 @@ class AwsDeployCodeServerlessService(DeployCodeServerlessService):
             region_name=os.getenv("REGION_NAME"),
         )
 
-        response = client.update_function_code(
-            FunctionName=serverless_service.name,
-            S3Bucket=bucket.name,
-            S3Key=artifact.file_name,
-            Publish=True,
-        )
-
-        if response["ResponseMetadata"]["HTTPStatusCode"] != self.STATUS_CODE_OK:
-            raise Exception(
-                "Error updating the lambda function:\n{}".format(str(response))
-            )
-
         if serverless_service.config:
             if serverless_service.config["environment_variables"]:
                 key = f"{bucket.environment}_ENVVARS"
@@ -56,3 +45,16 @@ class AwsDeployCodeServerlessService(DeployCodeServerlessService):
                 raise Exception(
                     "Error updating the lambda configuration:\n{}".format(str(response))
                 )
+            time.sleep(5)
+
+        response = client.update_function_code(
+            FunctionName=serverless_service.name,
+            S3Bucket=bucket.name,
+            S3Key=artifact.file_name,
+            Publish=True,
+        )
+
+        if response["ResponseMetadata"]["HTTPStatusCode"] != self.STATUS_CODE_OK:
+            raise Exception(
+                "Error updating the lambda function:\n{}".format(str(response))
+            )
