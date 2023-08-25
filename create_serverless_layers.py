@@ -20,7 +20,9 @@ if not sys.argv[1] in environments:
 environment = sys.argv[1]
 layer_zip_file_name = sys.argv[2]
 
-YamlLoader(container_builder).load_dir('{}/use_cases/_dependencies/'.format(os.getcwd()))
+YamlLoader(container_builder).load_dir(
+    "{}/use_cases/_dependencies/".format(os.getcwd())
+)
 
 use_case = container_builder.get(
     "use_cases.create_serverless_layer_version_use_case.CreateServerlessLayerVersionUseCase"
@@ -29,9 +31,4 @@ use_case = container_builder.get(
 with open("../serverless.{}.json".format(environment.lower())) as file:
     serverless_data = json.loads(file.read())
 
-for serverless_info in serverless_data:
-    use_case.create(
-        environment,
-        serverless_info,
-        "../{}".format(layer_zip_file_name)
-    )
+use_case.create(environment, serverless_data[0], "../{}".format(layer_zip_file_name))
