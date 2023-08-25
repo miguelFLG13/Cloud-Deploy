@@ -39,7 +39,8 @@ class AwsDeployCodeServerlessService(DeployCodeServerlessService):
 
         if serverless_service.config:
             if serverless_service.config["environment_variables"]:
-                environment_variables = json.loads(os.environ["ENVVARS"])
+                key = f"{bucket.environment}_ENVVARS"
+                environment_variables = json.loads(os.environ[key])
             else:
                 environment_variables = {}
 
