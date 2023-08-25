@@ -1,44 +1,59 @@
-#! /usr/bin/python
-import json
 import os
-import sys
-from pypendency.builder import container_builder
-from pypendency.loaders.yaml_loader import YamlLoader
-from zipfile import ZipFile
+from time import strftime
+from typing import Dict
 
-from environments import PREPRODUCTION_ENVIRONMENT, PRODUCTION_ENVIRONMENT
-
-
-if len(sys.argv) != 2:
-    print("Incorrect Number of Parameters Error")
-    sys.exit(1)
-
-environments = [PRODUCTION_ENVIRONMENT, PREPRODUCTION_ENVIRONMENT]
-if not sys.argv[1] in environments:
-    print("Environment Argument Error")
-    sys.exit(1)
-
-environment = sys.argv[1]
-
-YamlLoader(container_builder).load_dir('{}/use_cases/_dependencies/'.format(os.getcwd()))
-
-use_case = container_builder.get(
-    "use_cases.deploy_serverless_code_use_case.DeployServerlessCodeUseCase"
+from entities.artifact import Artifact
+from entities.bucket import Bucket
+from entities.serverless_service import ServerlessService
+from use_cases.services.deploy_code_serverless_service.deploy_code_serverless_service import (
+    DeployCodeServerlessService,
 )
-
-use_case_image = container_builder.get(
-    "use_cases.deploy_serverless_image_use_case.DeployServerlessImageUseCase"
-)
+from use_cases.services.upload_code_service.upload_code_service import UploadCodeService
 
 
-with open("../serverless.{}.json".format(environment.lower())) as file:
-    serverless_data = json.loads(file.read())
+class DeployServerlessCodeUseCase:
+    """
+    Use case to, in cloud, upload a version of your code to a
+    bucket and deploy in a serverless service
+    """
 
-current_directory = os.getcwd()
-for serverless_info in serverless_data:
-    if serverless_info.get("image_repository"):
-        use_case_image.deploy(environment, serverless_info)
-    else:
-        use_case.deploy(environment, serverless_info)
+    def __init__(
+        self,
+        upload_code_service: UploadCodeService,
+        deploy_code_serverless_service: DeployCodeServerlessService,
+    ) -> None:
+        self.__upload_code_service = upload_code_service
+        self.__deploy_code_serverless_service = deploy_code_serverless_service
 
-    os.chdir(current_directory)
+    def deploy(self, environment: str, serverless_info: Dict) -> None:
+        os.chdir("../")
+        directory = os.getcwd()
+        for module in serverless_info["extra_modules"]:
+            os.system("cp -r {} {}".format(module, serverless_info["path"]))
+
+        os.chdir(serverless_info["path"])
+        temp_file_name = "{}.zip".format(serverless_info["path"].replace("/", "_"))
+        os.system("zip -r {} *".format(temp_file_name))
+        os.system("mv {} {}".format(temp_file_name, directory))
+
+        version = strftime("%Y%m%d%H%M%S")
+        file_name = "{}/{}_{}_build.zip".format(
+            environment, version, serverless_info["id"]
+        )
+
+        artifact = Artifact(
+            file_name=file_name, temp_path="{}/{}".format(directory, temp_file_name)
+        )
+
+        bucket_name = os.getenv("BUCKET_{}".format(environment))
+        bucket = Bucket(name=bucket_name, environment=environment)
+
+        self.__upload_code_service.upload(bucket, artifact)
+
+        serverless_service = ServerlessService(
+            name=serverless_info["id"], environment=environment
+        )
+
+        self.__deploy_code_serverless_service.deploy(
+            serverless_service, bucket, artifact
+        )
