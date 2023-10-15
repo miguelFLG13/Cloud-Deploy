@@ -45,7 +45,7 @@ class AwsDeployCodeServerlessService(DeployCodeServerlessService):
                 raise Exception(
                     "Error updating the lambda configuration:\n{}".format(str(response))
                 )
-            time.sleep(8)
+            time.sleep(5)
 
         response = client.update_function_code(
             FunctionName=serverless_service.name,
