@@ -28,6 +28,28 @@ use_case = container_builder.get(
     "use_cases.deploy_serverless_code_use_case.DeployServerlessCodeUseCase"
 )
 
+use_case_image = container_builder.get(
+    "use_cases.deploy_serverless_image_use_case.DeployServerlessImageUseCase"
+)
+
+
+with open("../serverless.{}.json".format(environment.lower())) as file:
+    serverless_data = json.loads(file.read())
+
+current_directory = os.getcwd()
+for serverless_info in serverless_data:
+    if serverless_info.get("image_repository"):
+        use_case_image.deploy(environment, serverless_info)
+    else:
+        use_case.deploy(environment, serverless_info)
+
+    os.chdir(current_directory)
+
+
+use_case = container_builder.get(
+    "use_cases.config_serverless_code_use_case.ConfigServerlessCodeUseCase"
+)
+
 with open("../serverless.{}.json".format(environment.lower())) as file:
     serverless_data = json.loads(file.read())
 

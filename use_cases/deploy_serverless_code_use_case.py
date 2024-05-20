@@ -53,7 +53,7 @@ class DeployServerlessCodeUseCase:
         serverless_service = ServerlessService(
             name=serverless_info["id"],
             environment=environment,
-            config=serverless_info.get("config"),
+            config=serverless_info["config"],
         )
 
         self.__deploy_code_serverless_service.deploy(
