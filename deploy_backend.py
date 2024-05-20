@@ -69,7 +69,7 @@ with open("../serverless.{}.json".format(environment.lower())) as file:
 
 current_directory = os.getcwd()
 for serverless_info in serverless_data:
-    use_case.deploy(environment, serverless_info)
+    use_case.configure(environment, serverless_info)
     os.chdir(current_directory)
 
 print("LAMBDAS CONFIGURED")
