@@ -1,0 +1,2 @@
+use_cases.services.config_serverless_service.aws_config_serverless_service.AwsConfigServerlessService:
+    fqn: use_cases.services.config_serverless_service.aws_config_serverless_service.AwsConfigServerlessService

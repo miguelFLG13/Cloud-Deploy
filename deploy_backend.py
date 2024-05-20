@@ -20,7 +20,9 @@ if not sys.argv[1] in environments:
 
 environment = sys.argv[1]
 
-YamlLoader(container_builder).load_dir('{}/use_cases/_dependencies/'.format(os.getcwd()))
+YamlLoader(container_builder).load_dir(
+    "{}/use_cases/_dependencies/".format(os.getcwd())
+)
 
 use_case = container_builder.get(
     "use_cases.deploy_serverless_code_use_case.DeployServerlessCodeUseCase"
@@ -41,4 +43,17 @@ for serverless_info in serverless_data:
     else:
         use_case.deploy(environment, serverless_info)
 
+    os.chdir(current_directory)
+
+
+use_case = container_builder.get(
+    "use_cases.config_serverless_code_use_case.ConfigServerlessCodeUseCase"
+)
+
+with open("../serverless.{}.json".format(environment.lower())) as file:
+    serverless_data = json.loads(file.read())
+
+current_directory = os.getcwd()
+for serverless_info in serverless_data:
+    use_case.deploy(environment, serverless_info)
     os.chdir(current_directory)
