@@ -59,3 +59,4 @@ class DeployServerlessCodeUseCase:
         self.__deploy_code_serverless_service.deploy(
             serverless_service, bucket, artifact
         )
+        print("LAMBDAS DEPLOYED")
