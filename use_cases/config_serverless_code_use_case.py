@@ -28,4 +28,3 @@ class ConfigServerlessCodeUseCase:
         )
 
         self.__config_serverless_service.configure(serverless_service)
-        print("LAMBDAS CONFIGURED")
