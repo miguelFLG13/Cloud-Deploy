@@ -1,4 +1,4 @@
 use_cases.config_serverless_code_use_case.ConfigServerlessCodeUseCase:
     fqn: use_cases.config_serverless_code_use_case.ConfigServerlessCodeUseCase
     args:
-        - '@use_cases.services.config_serverless_service.aws_config_serverless_service.AwsConfigCodeServerlessService'
+        - '@use_cases.services.config_serverless_service.aws_config_serverless_service.AwsConfigServerlessService'
