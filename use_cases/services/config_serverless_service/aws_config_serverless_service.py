@@ -13,7 +13,7 @@ class AwsConfigServerlessService(ConfigServerlessService):
 
     STATUS_CODE_OK = 200
 
-    def deploy(self, serverless_service: ServerlessService) -> None:
+    def configure(self, serverless_service: ServerlessService) -> None:
         client = boto3.client(
             "lambda",
             aws_access_key_id=os.getenv("ACCESS_KEY_ID"),
