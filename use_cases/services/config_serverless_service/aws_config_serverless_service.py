@@ -30,7 +30,7 @@ class AwsConfigServerlessService(ConfigServerlessService):
             else:
                 environment_variables = {}
 
-            try
+            try:
                 response = client.update_function_configuration(
                     FunctionName=serverless_service.name,
                     Environment={"Variables": environment_variables},
