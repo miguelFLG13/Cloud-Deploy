@@ -1,6 +1,7 @@
 import boto3
 import json
 import os
+import time
 
 from entities.serverless_service import ServerlessService
 from use_cases.services.config_serverless_service.config_serverless_service import (
@@ -13,7 +14,8 @@ class AwsConfigServerlessService(ConfigServerlessService):
 
     STATUS_CODE_OK = 200
 
-    def configure(self, serverless_service: ServerlessService) -> None:
+    def configure(self, serverless_service: ServerlessService, attempt: int=0) -> None:
+        attempt += 1
         client = boto3.client(
             "lambda",
             aws_access_key_id=os.getenv("ACCESS_KEY_ID"),
@@ -37,6 +39,10 @@ class AwsConfigServerlessService(ConfigServerlessService):
             )
 
             if response["ResponseMetadata"]["HTTPStatusCode"] != self.STATUS_CODE_OK:
+                if attempt < 2:
+                    time.sleep(attempt + 2)
+                    self.configure(serverless_service, attempt)
+                
                 raise Exception(
                     "Error updating the lambda configuration:\n{}".format(str(response))
                 )
