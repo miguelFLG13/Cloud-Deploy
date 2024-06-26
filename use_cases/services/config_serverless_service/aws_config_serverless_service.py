@@ -30,13 +30,18 @@ class AwsConfigServerlessService(ConfigServerlessService):
             else:
                 environment_variables = {}
 
-            response = client.update_function_configuration(
-                FunctionName=serverless_service.name,
-                Environment={"Variables": environment_variables},
-                Layers=serverless_service.config["layers"],
-                Timeout=serverless_service.config["time_out"],
-                MemorySize=serverless_service.config["memory_size"],
-            )
+            try:
+                response = client.update_function_configuration(
+                    FunctionName=serverless_service.name,
+                    Environment={"Variables": environment_variables},
+                    Layers=serverless_service.config["layers"],
+                    Timeout=serverless_service.config["time_out"],
+                    MemorySize=serverless_service.config["memory_size"],
+                )
+            except Exception:
+                if attempt < 2:
+                    time.sleep(attempt + 2)
+                    self.configure(serverless_service, attempt)
 
             if response["ResponseMetadata"]["HTTPStatusCode"] != self.STATUS_CODE_OK:
                 if attempt < 2:
