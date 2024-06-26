@@ -30,6 +30,7 @@ class AwsConfigServerlessService(ConfigServerlessService):
             else:
                 environment_variables = {}
 
+            response = None
             try:
                 response = client.update_function_configuration(
                     FunctionName=serverless_service.name,
@@ -43,7 +44,7 @@ class AwsConfigServerlessService(ConfigServerlessService):
                     time.sleep(attempt + 2)
                     self.configure(serverless_service, attempt)
 
-            if response["ResponseMetadata"]["HTTPStatusCode"] != self.STATUS_CODE_OK:
+            if response != None and response["ResponseMetadata"]["HTTPStatusCode"] != self.STATUS_CODE_OK:
                 if attempt < 2:
                     time.sleep(attempt + 2)
                     self.configure(serverless_service, attempt)
